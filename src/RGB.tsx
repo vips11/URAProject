@@ -11,15 +11,55 @@ type RGBProps = {
 const RGB = ({ random1, random2, random3 }: RGBProps) => {
   const red = random1 * 255;
   const green = random2 * 255;
-  const blue = random2 * 255;
+  const blue = random3 * 255;
   const color = `rgb(${red}, ${green}, ${blue})`;
   const textColor = `rgb(${255 - red}, ${255 - green}, ${255 - blue})`;
   const colorDisplay = `rgb(${Math.round(red)}, ${Math.round(
     green
   )}, ${Math.round(blue)})`;
+
   const textColorDisplay = `rgb(${Math.round(255 - red)}, ${Math.round(
     255 - green
   )}, ${Math.round(255 - blue)})`;
+
+  const relativeLuminance = ({ red, green, blue }) => {
+    const RsRGB = red / 255;
+    const GsRGB = green / 255;
+    const BsRGB = blue / 255;
+    let R;
+    let B;
+    let G;
+    if (RsRGB <= 0.03928) {
+      R = RsRGB / 12.92;
+    } else {
+      R = Math.exp((RsRGB + 0.055) / 1.055);
+    }
+
+    if (GsRGB <= 0.03928) {
+      G = GsRGB / 12.92;
+    } else {
+      G = Math.exp((GsRGB + 0.055) / 1.055);
+    }
+
+    if (BsRGB <= 0.03928) {
+      B = BsRGB / 12.92;
+    } else {
+      B = Math.exp((R = BsRGB + 0.055) / 1.055);
+    }
+    return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+  };
+
+  const calculateContrast = () => {
+    const L1 =
+      relativeLuminance({
+        red: 255 - red,
+        green: 255 - green,
+        blue: 255 - blue,
+      }) + 0.05;
+    const L2 = relativeLuminance({ red: red, green: green, blue: blue }) + 0.05;
+    if (L1 > L2) return L1 / L2;
+    else return L2 / L1;
+  };
   return (
     <View>
       <Card
@@ -38,6 +78,7 @@ const RGB = ({ random1, random2, random3 }: RGBProps) => {
       <Text style={{ flexWrap: "wrap", width: 125 }}>
         Text color: {textColorDisplay}
       </Text>
+      <Text>Color contrast: {calculateContrast()}</Text>
     </View>
   );
 };

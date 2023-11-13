@@ -4,6 +4,7 @@ import RGB from "./src/RGB";
 import { useState } from "react";
 import { Button } from "react-native-paper";
 import HSL from "./src/HSL";
+import GenerateHarmony from "./src/GenerateHarmony";
 
 export default function App() {
   const [random1, setRandom1] = useState(Math.random());
@@ -16,7 +17,7 @@ export default function App() {
   };
   return (
     <View>
-      <Text style={styles.text}>
+      {/* <Text style={styles.text}>
         The following are two ways to display colors. The first uses the RGB
         technique that uses the primary colors of the color wheel and gives it a
         value between 0-255.
@@ -32,12 +33,12 @@ export default function App() {
       <Text style={styles.text}>
         The button is used to generate another set of random numbers to create a
         new colour scheme.
-      </Text>
+      </Text> */}
 
       <View style={styles.container}>
         <View style={styles.colorContainer}>
           <RGB random1={random1} random2={random2} random3={random3} />
-          <HSL random1={random1} random2={random2} random3={random3} />
+          {/* <HSL random1={random1} random2={random2} random3={random3} /> */}
         </View>
         <StatusBar style="auto" />
         <Button
@@ -49,6 +50,58 @@ export default function App() {
           Change colour
         </Button>
       </View>
+      <GenerateHarmony
+        colorCount={20}
+        offsetAngle1={15}
+        offsetAngle2={30}
+        rangeAngle0={15}
+        rangeAngle1={15}
+        rangeAngle2={15}
+        saturation={1}
+        saturationRange={0.2}
+        luminance={0.45}
+        luminanceRange={0.5}
+        buttonLabel="Choose random harmony"
+      />
+      <GenerateHarmony
+        colorCount={20}
+        offsetAngle1={15}
+        offsetAngle2={30}
+        rangeAngle0={15}
+        rangeAngle1={15}
+        rangeAngle2={15}
+        saturation={1}
+        saturationRange={0.2}
+        luminance={0.45}
+        luminanceRange={0.5}
+        buttonLabel="Choose analogus harmony"
+      />
+      <GenerateHarmony
+        colorCount={20}
+        offsetAngle1={15}
+        offsetAngle2={30}
+        rangeAngle0={15}
+        rangeAngle1={0}
+        rangeAngle2={0}
+        saturation={1}
+        saturationRange={0.2}
+        luminance={0.45}
+        luminanceRange={0.5}
+        buttonLabel="Choose complementary harmony"
+      />
+      <GenerateHarmony
+        colorCount={20}
+        offsetAngle1={120}
+        offsetAngle2={240}
+        rangeAngle0={15}
+        rangeAngle1={15}
+        rangeAngle2={15}
+        saturation={1}
+        saturationRange={0.2}
+        luminance={0.45}
+        luminanceRange={0.5}
+        buttonLabel="Choose triad harmony"
+      />
     </View>
   );
 }
