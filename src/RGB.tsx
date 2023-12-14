@@ -22,7 +22,7 @@ const RGB = ({ random1, random2, random3 }: RGBProps) => {
     255 - green
   )}, ${Math.round(255 - blue)})`;
 
-  const relativeLuminance = ({ red, green, blue }) => {
+  const relativeLuminance = (red: number, green: number, blue: number) => {
     const RsRGB = red / 255;
     const GsRGB = green / 255;
     const BsRGB = blue / 255;
@@ -50,15 +50,10 @@ const RGB = ({ random1, random2, random3 }: RGBProps) => {
   };
 
   const calculateContrast = () => {
-    const L1 =
-      relativeLuminance({
-        red: 255 - red,
-        green: 255 - green,
-        blue: 255 - blue,
-      }) + 0.05;
-    const L2 = relativeLuminance({ red: red, green: green, blue: blue }) + 0.05;
-    if (L1 > L2) return L1 / L2;
-    else return L2 / L1;
+    const L1 = relativeLuminance(255 - red, 255 - green, 255 - blue) + 0.05;
+    const L2 = relativeLuminance(red, green, blue) + 0.05;
+    if (L1 > L2) return Math.round(L1 / L2);
+    else return Math.round((L2 / L1) * 100) / 100;
   };
   return (
     <View>
